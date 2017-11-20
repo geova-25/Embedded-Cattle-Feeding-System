@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 
-#define SUCCESS_HEADER "HTTP/1.0 200 OK\nAccess-Control-Allow-Origin:http://localhost:8383\nAccess-Control-Allow-Headers:Content-Type\nAccess-Control-Allow-Methods:GET,PUT,POST,OPTIONS\nContent-Type:application/json;charset=UTF-8\n\n"
+#define SUCCESS_HEADER "HTTP/1.0 200 OK\nAccess-Control-Allow-Origin:*\nAccess-Control-Allow-Headers:Content-Type\nAccess-Control-Allow-Methods:GET,PUT,POST,OPTIONS\nContent-Type:application/json;charset=UTF-8\n\n"
 #define HEADER_IMG "HTTP/1.0 200 OK\nAccess-Control-Allow-Origin:http://localhost:8383\nAccess-Control-Allow-Headers:Content-Type\nAccess-Control-Allow-Methods:GET,PUT,POST,OPTIONS\nContent-Type:image/jpeg\n\n"
 #define CONNMAX 1000
 #define BYTES 1024
@@ -17,13 +17,13 @@
 
 
 char *ROOT;
-int listenfd; 
+int listenfd;
 int clients[CONNMAX];
 
-char mesg[99999]; 
-char datos[99999]; 
-char *reqline[3]; 
-char data_to_send[BYTES]; 
+char mesg[99999];
+char datos[99999];
+char *reqline[3];
+char data_to_send[BYTES];
 char path[99999];
 int rcvd, fd, bytes_read;
 short Puertas[CANTIDAD_PUERTAS];
