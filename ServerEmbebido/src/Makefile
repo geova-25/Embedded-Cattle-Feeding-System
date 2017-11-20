@@ -11,7 +11,7 @@ CFLAGS = -c
 EmbeddedServer: $(SRC)
 #-I es para el .h  y -L donde está el .a o el .sysroots
 
-		$(CC) -L ../lib -I ../include -o ../bin/$(APP) $(SRC) softServo.c -lwiringPi
+		$(CC) -L ../lib -I ../include -o ../bin/$(APP) $(SRC) softServo.c -lwiringPi -lpthread
 
 clean: 
 		rm  ../bin/$(APP)

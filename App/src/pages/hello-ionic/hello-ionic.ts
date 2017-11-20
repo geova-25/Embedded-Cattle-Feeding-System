@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import * as globals from '../../app/variables'
 
 @Component({
   selector: 'page-hello-ionic',
@@ -21,9 +22,10 @@ export class HelloIonicPage implements OnInit
 
   ngOnInit(): void {
     // Make the HTTP request:
-    this.http.get('http://localhost:10000/variables/').subscribe(data => {
+    this.http.get(globals.ipServer).subscribe(data => {
       // Read the result field from the JSON response.
       console.log(data.json())
+      this.temperatureValue = data.json().temperatura
       //this.results = data['results'];
     });
   }
