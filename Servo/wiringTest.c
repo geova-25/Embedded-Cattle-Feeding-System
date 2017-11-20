@@ -15,7 +15,20 @@ int main ()
 
 	softServoSetup (0, 1, 2, 3, 4, 5, 6, 7) ;
 
+	delay (1000) ;
+
+	softServoWrite (0,  1000) ;
+
+	delay (1000) ;
+
 	softServoWrite (0,  500) ;
+
+	delay (1000) ;
+	softServoWrite (0,  0) ;
+
+	delay (1000) ;
+
+	softServoWrite (0,  100) ;
 /*
 	softServoWrite (1, 1000) ;
 	softServoWrite (2, 1100) ;
@@ -26,6 +39,6 @@ int main ()
 	softServoWrite (7, 2200) ;
 */
 
-	delay (10) ;
+	delay (1000) ;
 
 }
