@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include "ServerUtils.c"
-#include "pinDriver.h"
+//#include "pinDriver.h"
 #include "../include/EmbeddedServer.h"
 
 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 **/
 void startServer(char *port, int *listenfd)
 {
-	init(); //init pins
+	//init(); //init pins
     struct addrinfo hints, *res, *p;
     // getaddrinfo for host
     memset (&hints, 0, sizeof(hints));
@@ -150,8 +150,8 @@ void options_verb(int n)
 {
 	if(checkBadRequest(n)) //checks format of the request
     {	
-    	//checks if the request is for /luces or /doors
-        if (strncmp(reqline[1], "/luces/\0", 6)==0  || strncmp(reqline[1], "/doors/\0", 5)==0)
+    	//checks if the request is for /servo or /variables
+        if (strncmp(reqline[1], "/servo/\0", 6)==0  || strncmp(reqline[1], "/variables/\0", 5)==0)
         {
         	//returns headers
         	send(clients[n], SUCCESS_HEADER , strlen(SUCCESS_HEADER), 0);               	
@@ -189,37 +189,26 @@ void put_user(int n)
 	    	//sends internal server error
 	        send(clients[n],INTERNAL_SERVER_ERROR_HEADER, strlen(INTERNAL_SERVER_ERROR_HEADER) , 0);
 	    }
-	    //returns the usersto client
-	    while ( (bytes_read=read(fd, data_to_send, BYTES))>0 )
-	        write (clients[n], data_to_send, bytes_read);
-	    }
+	    
+	}
 }
 
 /**
-* Changes the state of lights identified by id
+* Changes the state of servo identified by id
 **/
-void put_lights(int n)
+void put_servo(int n)
 {
 	//obtiene el json
-    char* string =  get_luces(datos);
-    short numero_luz = lightPinMapper(string[26]);
-    short estado_luz =  retStateShort(string[37]);
-    //if numero luz is the code for turning off or on all the doors simultaneously
-    if(numero_luz == CODIGO_TODAS_LUCES)
-    {
-    	//turns off or on all lights
-    	writeAllPinsLights(estado_luz);
-    }
-    else
-    {
-    	//escribe en el bombillo que necesite, el estado (prendido o apagado)
-        writePin(numero_luz ,estado_luz );
-    }
+    int action =  get_servo_value(datos);
+  
+    printf("%d\n",action);
+
+    
     send(clients[n], SUCCESS_HEADER , strlen(SUCCESS_HEADER), 0);  
 }
 
 /**
-*  This functions performs put for users and lights
+*  This functions performs put for users and servo
 **/
 void put_verb(int n)
 {
@@ -231,11 +220,11 @@ void put_verb(int n)
         {
             put_user(n); //put user for login
         }                 
-        //if is put for lights 
-        else if (strncmp(reqline[1], "/luces/\0", 6)==0)
+        //if is put for servo
+        else if (strncmp(reqline[1], "/servo/\0", 6)==0)
         {
-        	//put lights
-        	put_lights(n);        	
+        	//put servo
+        	put_servo(n);        	
         } 
         else   sendNotFound(n);//not found status
     }
@@ -269,60 +258,44 @@ void get_photo(int n)
 }
 
 /**
-* Performs a get for the rsource called doors, checking its condition
+* Performs a get for the rsource called variables, checking its condition
 * from GPIOs 
 **/
-void get_doors(int n)
+void get_variables(int n)
 {
 	//send the success header to client
 	send(clients[n], SUCCESS_HEADER , strlen(SUCCESS_HEADER), 0);         
     short x ;
-    //get the doors' status from GPIOS
-    Puertas[0] =  readPin(PIN_DOOR_1);
-    Puertas[1] =  readPin(PIN_DOOR_2);
-    Puertas[2] =  readPin(PIN_DOOR_3);
-    Puertas[3] =  readPin(PIN_DOOR_4);
+    
     //variable where json resource is concatenated
-    char jsonDoors[1000] = "";
-    //concatenate strings for resource luces
-    strcat(jsonDoors , "[");     
-    strcat(jsonDoors ,"{\"numero\":1");
-    strcat(jsonDoors , ",\"estado\":");
-    strcat(jsonDoors , retState(Puertas[0])); 
-    strcat(jsonDoors , "},");
-    strcat(jsonDoors ,"{\"numero\":2"); 
-    strcat(jsonDoors , ",\"estado\":");
-    strcat(jsonDoors , retState(Puertas[1])); 
-    strcat(jsonDoors , "},");
-    strcat(jsonDoors ,"{\"numero\":3"); 
-    strcat(jsonDoors , ",\"estado\":");
-    strcat(jsonDoors , retState(Puertas[2])); 
-    strcat(jsonDoors , "},");
-    strcat(jsonDoors ,"{\"numero\":4"); 
-    strcat(jsonDoors , ",\"estado\":");
-    strcat(jsonDoors , retState(readPin(PIN_DOOR_4))); 
-    strcat(jsonDoors , "}");
-    strcat(jsonDoors ,"]");
+    char jsonVariables[100] = "";
+
+    strcat(jsonVariables ,"{\"temperatura\":");
+    strcat(jsonVariables ,"18");
+    strcat(jsonVariables ,",\"humedad\":");
+    strcat(jsonVariables ,"32"); 
+    strcat(jsonVariables , ",\"flexor\":");
+    strcat(jsonVariables , "0");
+    strcat(jsonVariables , "}");
+    
     //send the json string to the client 
-    write (clients[n], jsonDoors, strlen(jsonDoors));
-    printf("ReadPin %d\n", readPin(PIN_DOOR_4));
-    printf("state %s \n",retState(readPin(PIN_DOOR_4)));
-    printf("str %s \n",jsonDoors);
+    write (clients[n], jsonVariables, strlen(jsonVariables));
+    
 }
 
 /**
-*Performs get for doors´ status and photgrah
+*Performs get for Variables status and photgrah
 */
 void get_verb(int n)
 {
 	//checks format
 	if(checkBadRequest(n))
     {         
-    	//checks if get is for doors
-        if ( strncmp(reqline[1], "/doors/\0", 6)==0)
+    	//checks if get is for variables
+        if ( strncmp(reqline[1], "/variables/\0", 6)==0)
         {
-        	//calls get for doors
-            get_doors(n); 
+        	//calls get for variables
+            get_variables(n); 
         }
         //checks if get is for picture
         else if ( strncmp(reqline[1], "/imagen/\0", 7)==0)

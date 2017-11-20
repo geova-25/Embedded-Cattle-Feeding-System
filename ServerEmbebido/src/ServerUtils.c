@@ -178,42 +178,27 @@ void validar_cuenta(char datos[99999], char path [99999]){
 }
 
 
-char* get_luces(char datos[99999])
+int get_servo_value(char datos[99999])
 {
-	char* datos_entrantes= (char*)calloc(100,sizeof(char));
-	bool lee_entrante=false;
+	int largo = 100;
+	char* datos_entrantes= (char*)malloc(largo*sizeof(char));
+	
 	int i; 
-	for (i = 0; i < 1024; ++i)
+	for (i = 0; i < largo; ++i)
 	{
-		if (datos[i] == '{' || lee_entrante)
+		if (datos[i] == '0')
 		{
-			datos_entrantes[i] = datos[i];
-			lee_entrante = true;
+			return 0;
 		}
-		else if (datos[i] == '}')
+
+		if (datos[i] == '1')
 		{
-			datos_entrantes[i] = datos[i];
-			lee_entrante = false;
+			return 1;
 		}
+		
 	}
+	
+  
+	return 0;
 
-	return datos_entrantes;
-
-}
-
-short retStateShort(char c)
-{
-	if(c=='0')
-		return 0;
-	else
-		return 1;
-}
-
-
-const char* retState(short c)
-{
-	if(c==0)
-		return "0";
-	else
-		return "1";
 }

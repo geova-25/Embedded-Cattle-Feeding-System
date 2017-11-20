@@ -39,47 +39,8 @@ void init(){
 	//system("echo \"4\" > /sys/class/gpio/export");
 }
 
-short lightPinMapper(char c)
-{
-	
-	if(c=='1')
-		return PIN_LIGHT_1;
-	if(c=='2')
-		return PIN_LIGHT_2;
-	if(c=='3')
-		return PIN_LIGHT_3;
-	if(c=='4')
-		return PIN_LIGHT_4;
-	if(c=='5')
-		return PIN_LIGHT_5;
-	else
-		return 6;
-}
 
-short doorPinMapper(short c)
-{
-	
-	if(c==1)
-		return PIN_DOOR_1;
-	if(c==2)
-		return PIN_DOOR_2;
-	if(c==3)
-		return PIN_DOOR_3;
-	else
-		return PIN_DOOR_4;
-	
-}
 
-void writeAllPinsLights(short estado)
-{
-	
-	writePin(PIN_LIGHT_1 ,estado ); 
-    writePin(PIN_LIGHT_2 ,estado ); 
-    writePin(PIN_LIGHT_3 ,estado ); 
-    writePin(PIN_LIGHT_4 ,estado ); 
-    writePin(PIN_LIGHT_5 ,estado ); 
-
-}
 
 /**
 ** pinNumber is the number of GPIO to export
