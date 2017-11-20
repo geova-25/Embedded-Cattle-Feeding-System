@@ -10,8 +10,10 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <wiringPi.h>
+#include "../include/softServo.h"
 #include "ServerUtils.c"
-//#include "pinDriver.h"
+
 #include "../include/EmbeddedServer.h"
 
 
@@ -202,6 +204,31 @@ void put_servo(int n)
     int action =  get_servo_value(datos);
   
     printf("%d\n",action);
+
+
+    if (wiringPiSetup () == -1)
+    {
+        ;
+    //fprintf (stdout, "oops: %s\n", strerror (errno)) ;
+    //return 1 ;
+    }
+
+    softServoSetup (0, 1, 2, 3, 4, 5, 6, 7) ;
+
+    delay (1000) ;
+
+    softServoWrite (0,  1000) ;
+
+    delay (1000) ;
+
+    softServoWrite (0,  500) ;
+
+    delay (1000) ;
+    softServoWrite (0,  0) ;
+
+    delay (1000) ;
+
+    softServoWrite (0,  100) ;
 
     
     send(clients[n], SUCCESS_HEADER , strlen(SUCCESS_HEADER), 0);  

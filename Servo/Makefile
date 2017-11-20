@@ -2,7 +2,7 @@ CC	= arm-poky-linux-gnueabi-gcc -march=armv7ve -marm -mfpu=neon-vfpv4 -mfloat-ab
 all: servoTest
 
 servoTest: 
-		$(CC) -o wiringTest wiringTest.c softServo.c -L ./ -I ./ -lwiringPi -lpthread
+		gcc -o wiringTest wiringTest.c softServo.c -L ./ -I ./ -lwiringPi -lpthread
 
 clean:
 		rm *.a
