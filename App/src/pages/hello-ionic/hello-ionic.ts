@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import * as globals from '../../app/variables'
 
@@ -6,7 +6,7 @@ import * as globals from '../../app/variables'
   selector: 'page-hello-ionic',
   templateUrl: 'hello-ionic.html'
 })
-export class HelloIonicPage implements OnInit
+export class HelloIonicPage
 {
 
   temperatureValue: string;
