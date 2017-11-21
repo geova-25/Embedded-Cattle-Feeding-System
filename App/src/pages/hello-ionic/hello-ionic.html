@@ -17,8 +17,8 @@
   <h3>Weigth</h3>
   <label>{{weightValue}}</label>
   <p>
-    <button ion-button color="primary" menuToggle>Refresh data</button>
-    <button ion-button color="primary" menuToggle>Feed Cattle</button>
+    <button ion-button color="primary" (click)="updateValues()">Refresh data</button>
+    <button ion-button color="primary" (click)="openDoor()">Feed Cattle</button>
   </p>
 
 </ion-content>

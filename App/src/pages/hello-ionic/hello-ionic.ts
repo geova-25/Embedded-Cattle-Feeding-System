@@ -20,14 +20,27 @@ export class HelloIonicPage implements OnInit
     this.weightValue = "Temperature in Pounds";
   }
 
-  ngOnInit(): void {
-    // Make the HTTP request:
-    this.http.get(globals.ipServer).subscribe(data => {
-      // Read the result field from the JSON response.
-      console.log(data.json())
-      this.temperatureValue = data.json().temperatura
-      //this.results = data['results'];
-    });
+  private getData() : any
+  {
+    return this.http.get(globals.urlServer + '/variables/');
   }
+
+  public updateValues()
+  {
+    this.getData().subscribe(values =>
+      {
+        let valuesJSON = values.json();
+        this.temperatureValue = valuesJSON.temperatura;
+        this.humidityValue = valuesJSON.humedad;
+        this.weightValue = valuesJSON.flexor;
+      });
+
+  }
+
+  public openDoor()
+  {
+    this.http.put(globals.urlServer + "/servo/","{\"servo\":1}").subscribe(data => console.log(data));
+  }
+
 
 }
