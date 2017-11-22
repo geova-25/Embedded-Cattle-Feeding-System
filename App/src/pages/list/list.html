@@ -1,15 +1,17 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>My First List</ion-title>
+    <ion-title>Photo capture</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-<button ion-button color="primary" (click)="updateImage()">Update Image</button>
-<img [src]= "image"
-       alt="Image preview...">
+   <img [src]= "image"
+         alt="Image preview...">
+  <ion-item>
+     <button ion-button round large color="black" (click)="updateImage()" class="centerOne">Take Photo</button>
+  </ion-item>
+  <ion-item>
+     <button ion-button round small color="black" (click)="goMonitor()" class="centerOne">Go to Monitor</button>
+   </ion-item>
 </ion-content>
 s

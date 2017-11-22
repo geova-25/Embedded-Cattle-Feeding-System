@@ -1,3 +1,24 @@
-page-hello-ionic {
+page-hello-ionic
+{
+  .fixedLabel
+  {
+    min-width: 11% !important;
+    max-width: 11% !important;
+  }
 
+  .center
+  {
+    display: inline-block;
+  }
+
+  .centerOne
+  {
+    margin: auto;
+    display: block;
+  }
+
+  .container
+  {
+    text-align: center;
+  }
 }

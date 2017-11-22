@@ -1,24 +1,96 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Embedded Cattle Feeding System</ion-title>
-  </ion-navbar>
+    <ion-navbar hideBackButton="true">
+        <div>
+          <div [hidden]="hideSystem" class="center">
+            <button ion-button menuToggle>
+              <ion-icon name="menu"></ion-icon>
+            </button>
+          </div>
+          <div class="center">
+            <ion-title class="center">Welcome to Cattle Feeding </ion-title>
+          </div>
+        </div>
+    </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+  <ion-content>
 
-  <h3>Temperature</h3>
-  <label>{{temperatureValue}}</label>
-  <h3>Humidity</h3>
-  <label>{{humidityValue}}</label>
-  <h3>Weigth</h3>
-  <label>{{weightValue}}</label>
-  <p>
-    <button ion-button color="primary" (click)="updateValues()">Refresh data</button>
-    <button ion-button color="primary" (click)="openDoor()">Feed Cattle</button>
-  </p>
+    <!--- Input for create user -->
 
-</ion-content>
+    <div [hidden]="hideCreateUser">
+      <ion-item>
+          <ion-label color="primary">Name</ion-label>
+          <ion-input placeholder="Text Input" [(ngModel)]='usernameCreate'></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label color="primary">Password</ion-label>
+          <ion-input type="password" placeholder="Text Input" [(ngModel)]='passwordCreate'></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button large round color="secondary" (click)="signIn()" class="centerOne">Create User</button>
+      </ion-item>
+      <ion-item>
+        <button ion-button small round color="dark" (click)="goLogIn()" class="centerOne">Login</button>
+      </ion-item>
+    </div>
+
+    <!--- Input for password and username -->
+
+    <div [hidden]="hideLogin">
+      <ion-item>
+          <ion-label color="primary">User</ion-label>
+          <ion-input placeholder="Text Input" [(ngModel)]='username'></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label color="primary">Password</ion-label>
+          <ion-input type="password" placeholder="Text Input" [(ngModel)]='password'></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button large round color="secondary" (click)="logIn()" class="centerOne">Login</button>
+      </ion-item>
+      <ion-item>
+        <button ion-button round color="dark" (click)="goSignIn()" class="centerOne">Sign In</button>
+      </ion-item>
+    </div>
+
+    <!--- Danger for bad login -->
+
+    <ion-label color="danger" [hidden]="badLogin">Username or Password Incorrect</ion-label>
+
+    <!--- Input for manage the system -->
+
+
+    <div [hidden]="hideSystem">
+      <ion-item>
+        <div class="container">
+          <div class="bar bar-header bar-dark">
+            <h1 class="title">Temperature</h1>
+          </div>
+          <label>{{temperatureValue}}</label>
+        </div>
+      </ion-item>
+      <ion-item>
+        <div class="container">
+          <div class="bar bar-header bar-dark">
+            <h1 class="title">Humidity</h1>
+          </div>
+          <label>{{humidityValue}}</label>
+        </div>
+      </ion-item>
+      <ion-item>
+        <div class="container">
+          <div class="bar bar-header bar-dark">
+            <h1 class="title">Weigth</h1>
+          </div>
+          <label>{{weightValue}}</label>
+        </div>
+      </ion-item>
+        <ion-item>
+          <div class="container">
+            <button ion-button large class="center" round color="primary" (click)="updateValues()">Refresh data</button>
+            <button ion-button large class="center" round color="primary" (click)="openDoor()">Feed Cattle</button>
+          </div>
+        </ion-item>
+   </div>
+  </ion-content>

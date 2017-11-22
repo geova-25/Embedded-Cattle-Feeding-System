@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, NavParams } from 'ionic-angular';
 import * as globals from '../../app/variables';
-
-import { ItemDetailsPage } from '../item-details/item-details';
+import { HelloIonicPage } from '../hello-ionic/hello-ionic';
 
 @Component({
   selector: 'page-list',
@@ -21,10 +20,10 @@ export class ListPage implements OnInit
 
   }
 
-  itemTapped(event, item)
+  public goMonitor()
   {
-    this.navCtrl.push(ItemDetailsPage, {
-      item: item
+    this.navCtrl.push(HelloIonicPage, {
+      item: 1
     });
   }
 

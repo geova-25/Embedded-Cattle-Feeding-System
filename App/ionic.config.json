@@ -1,8 +1,6 @@
 {
-  "name": "feeding-system-app",
+  "name": "App",
   "app_id": "ad11ff8f",
   "type": "ionic-angular",
-  "integrations": {
-    "cordova": {}
-  }
+  "integrations": {}
 }
