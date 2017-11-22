@@ -22,8 +22,8 @@
 
 
 int data[5] = { 0, 0, 0, 0, 0 };
- 
-void read_dht_data()
+float h,c;
+int read_dht_data()
 {
     uint8_t laststate   = HIGH;
     uint8_t counter     = 0;
@@ -79,12 +79,12 @@ void read_dht_data()
     if ( (j >= 40) &&
 	     (data[4] == ( (data[0] + data[1] + data[2] + data[3]) & 0xFF) ) )
     {
-        float h = (float)((data[0] << 8) + data[1]) / 10;
+        h = (float)((data[0] << 8) + data[1]) / 10;
         if ( h > 100 )
         {
             h = data[0];    // for DHT11
         }
-        float c = (float)(((data[2] & 0x7F) << 8) + data[3]) / 10;
+        c = (float)(((data[2] & 0x7F) << 8) + data[3]) / 10;
         if ( c > 125 )
         {
             c = data[2];    // for DHT11
@@ -95,9 +95,14 @@ void read_dht_data()
         }
         
         printf( "Humidity = %.1f %% Temperature = %.1f *C\n", h, c );
-    }else  {
+	if ((c != 0.0) && (h != 0.0))
+ 		return 	1;
+     }
+     else  
+     {
         printf( "Data not good, skip\n" );
-    }
+     }
+	return 2;
 }
 
 int main(int argc, char* argv[])
@@ -371,17 +376,27 @@ void get_variables(int n)
  
     while ( 1 )
     {
-        read_dht_data();
+        if (read_dht_data() ==1)
+	{
+		break;
+	}
         delay( 2000 ); /* wait 2 seconds before next read */
     }
     
+	int humedad = (int)h;
+	int centigrados = (int)c;
+	printf (" %.1f %.1f \n",h,c);
+	char str[12];
+	char str2[12];
+	sprintf(str, "%d", humedad);
+	sprintf(str2, "%d", centigrados);	
     //variable where json resource is concatenated
     char jsonVariables[100] = "";
 
     strcat(jsonVariables ,"{\"temperatura\":");
-    strcat(jsonVariables ,"18");
+    strcat(jsonVariables , str2);
     strcat(jsonVariables ,",\"humedad\":");
-    strcat(jsonVariables ,"32"); 
+    strcat(jsonVariables , str); 
     strcat(jsonVariables , ",\"flexor\":");
     strcat(jsonVariables , "0");
     strcat(jsonVariables , "}");
